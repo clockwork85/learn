@@ -11,6 +11,13 @@ if [[ ! -d /srv/d4/vault/scratch/matthew/agent-tmp ]]; then
   exit 1
 fi
 
+if [[ "${HERDR_ENV:-}" != "1" || -z "${HERDR_PANE_ID:-}" ]]; then
+  echo "Understanding must run inside a Herdr pane so its subagents can be managed safely." >&2
+  echo "Start or attach with: herdr --session understanding" >&2
+  echo "Then run this command again from a shell pane in that workspace." >&2
+  exit 1
+fi
+
 mkdir -p "$scratch_base/tmp" "$scratch_base/visuals" "$publish_root"
 
 export TMPDIR="$scratch_base/tmp"

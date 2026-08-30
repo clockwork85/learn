@@ -46,14 +46,34 @@ instead of requiring separate OpenRouter and Anthropic accounts.
 This fork also includes `scripts/understanding`, a launcher for the dedicated
 workspace. It sets `TMPDIR`, `TMP`, `TEMP`, and the visual staging root under
 the DAS scratch filesystem, publishes final images into the Obsidian
-`Understanding` folder, and then starts Pi. Override its defaults with
+`Understanding` folder, verifies that it is running in a Herdr pane, and then
+starts Pi. Override its defaults with
 `UNDERSTANDING_WORKSPACE`, `UNDERSTANDING_SCRATCH_BASE`, or
 `PI_LEARN_PUBLISH_ROOT` when needed.
+
+Install Herdr's Pi lifecycle integration once, then open the persistent
+learning workspace:
+
+```bash
+herdr integration install pi
+herdr --session understanding
+```
+
+From a shell pane inside that workspace, start the learning session:
+
+```bash
+understanding --name openusd-0001-understanding
+```
+
+Herdr owns the workspace and pane layout. The subagent extension opens each
+researcher or visualization agent beside the main Pi pane, addresses it by its
+stable Herdr pane id, and closes it on completion. Detach with Herdr's
+configured detach binding and return later with `herdr --session understanding`.
 
 ## Requirements
 
 - [pi](https://github.com/earendil-works/pi)
-- A subagent implementation, so the system can spawn the researcher and the visual makers. Recommended: [pi-interactive-subagents](https://github.com/amosblomqvist/pi-interactive-subagents) (tmux only). With it, everything works out of the box. Any other implementation works too, but expect to adapt the agent definitions, e.g. `agents/researcher.md` lists `safe_bash` in its tools, which is specific to that extension.
+- A subagent implementation, so the system can spawn the researcher and the visual makers. This fork is paired with [clockwork85/pi-interactive-subagents](https://github.com/clockwork85/pi-interactive-subagents), which uses Herdr when available and keeps tmux as a fallback. Any other implementation works too, but expect to adapt the agent definitions, e.g. `agents/researcher.md` lists `safe_bash` in its tools, which is specific to that extension.
 - `ask-user-question` — use the copy bundled here. If your setup already has an `ask-user-question` extension, use **this** one in its place. Popups from different extensions serialize through a shared UI lock, which only works when it's the same implementation.
 
 ## Notes
