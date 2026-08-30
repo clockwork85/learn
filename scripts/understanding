@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+workspace="${UNDERSTANDING_WORKSPACE:-$HOME/git/understanding}"
+scratch_base="${UNDERSTANDING_SCRATCH_BASE:-/srv/d4/vault/scratch/matthew/agent-tmp/pi-understanding}"
+publish_root="${PI_LEARN_PUBLISH_ROOT:-$HOME/research/vault/Understanding}"
+
+if [[ ! -d /srv/d4/vault/scratch/matthew/agent-tmp ]]; then
+  echo "Required DAS scratch root is unavailable: /srv/d4/vault/scratch/matthew/agent-tmp" >&2
+  exit 1
+fi
+
+mkdir -p "$scratch_base/tmp" "$scratch_base/visuals" "$publish_root"
+
+export TMPDIR="$scratch_base/tmp"
+export TMP="$scratch_base/tmp"
+export TEMP="$scratch_base/tmp"
+export PI_LEARN_STAGING_ROOT="$scratch_base/visuals"
+export PI_LEARN_PUBLISH_ROOT="$publish_root"
+
+cd "$workspace"
+exec pi "$@"

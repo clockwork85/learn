@@ -26,6 +26,30 @@ git clone https://github.com/amosblomqvist/learn .pi
 
 Then open pi in that directory. (Or copy the pieces you want into your existing project config.)
 
+### Dedicated Linux workspace
+
+The visual tools accept two optional environment variables for installations
+where the Pi workspace and Obsidian vault are separate:
+
+- `PI_LEARN_STAGING_ROOT` stores transient preview sources and renders under an
+  approved scratch directory instead of the operating-system default.
+- `PI_LEARN_PUBLISH_ROOT` publishes final images into `<root>/viz` instead of
+  `<cwd>/viz`.
+
+Linux Chrome and Chromium installations in the usual `/usr/bin` and `/snap/bin`
+locations are detected automatically. SVG rendering still requires
+`rsvg-convert` (provided by `librsvg2-bin` on Ubuntu and Debian).
+
+The bundled agent definitions intentionally inherit Pi's selected default model
+instead of requiring separate OpenRouter and Anthropic accounts.
+
+This fork also includes `scripts/understanding`, a launcher for the dedicated
+workspace. It sets `TMPDIR`, `TMP`, `TEMP`, and the visual staging root under
+the DAS scratch filesystem, publishes final images into the Obsidian
+`Understanding` folder, and then starts Pi. Override its defaults with
+`UNDERSTANDING_WORKSPACE`, `UNDERSTANDING_SCRATCH_BASE`, or
+`PI_LEARN_PUBLISH_ROOT` when needed.
+
 ## Requirements
 
 - [pi](https://github.com/earendil-works/pi)
